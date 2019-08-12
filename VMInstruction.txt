@@ -1,0 +1,55 @@
+1. download and install virtualbox (6.0.10) from
+    https://www.virtualbox.org
+
+2. download Ubuntu 18.04.2 LTS from
+https://ubuntu.com/download/desktop
+you will get an ubuntu iso file
+
+3. launch virtualbox
+click: new
+set the following:
+name: math487ull
+type: Linux
+verson: Ubuntu (64-bit)
+default settings for all the others
+
+then click create
+
+4. now you will see your vm in the VirtualBox Manager
+   change the "Video Memory" under the Display module to 128 MB.
+   
+    click the vm named math487ull to launch
+    then select the location of your Ubuntu iso file to install Ubuntu for the vm
+    then click start -> install -> continue
+    select normal installation ->continue -> install now -> continue -> continue
+
+
+Your name: math487FA19ULL
+password: math487
+continue
+restart
+
+
+
+
+setup shared folder:
+1. Guest Additions
+In the VirtualBox menu bar on your host system, select Devices –> Install Guest Additions...
+
+First create a folder (i.e. directory) on the host machine, e.g. via:
+
+$ mkdir ~/uwhpsc_shared
+This creates a new subdirectory in your home directory on the host machine.
+
+In the VirtualBox menu click on Devices, then click on Shared Folders. Click the + button on the right side and then type in the full path to the folder you want to share under Folder Path, including the folder name, and then the folder name itself under Folder name. If you click on Auto-mount then this will be mounted every time you start the VM.
+
+Then click OK twice.
+
+Then, in the VM (at the linux prompt), type the following commands:
+
+sharename=uwhpsc_shared   # or whatever name the folder has
+sudo mkdir /mnt/$sharename
+sudo chmod 777 /mnt/$sharename
+sudo mount -t vboxsf -o uid=1000,gid=1000 $sharename /mnt/$sharename
+
+if auto-mounting doesn’t work properly, you may need to repeat the final sudo mount ... command each time you start the VM.
