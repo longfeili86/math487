@@ -17,6 +17,8 @@ sudo apt-get install openmpi-bin
 sudo apt-get install liblapack-dev
 sudo apt-get install thunar
 sudo apt-get install xfce4-terminal
+sudo apt-get install r-base-core
+
 
 # some packages not installed on the VM 
 # that you might want to add:
