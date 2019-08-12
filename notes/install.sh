@@ -1,4 +1,4 @@
-#! bash
+# run this script:  bash install.sh
 # 
 sudo apt-get update
 sudo apt-get upgrade
