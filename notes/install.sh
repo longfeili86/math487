@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#! bash
 # 
 sudo apt-get update
 sudo apt-get upgrade
