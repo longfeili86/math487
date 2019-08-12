@@ -1,0 +1,6 @@
+# ignore these files
+*~
+*.pdf
+*.eps
+*.DS_Store
+*.log
