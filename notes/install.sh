@@ -10,6 +10,11 @@ sudo apt-get install python-numpy
 sudo apt-get install python-scipy
 sudo apt-get install python-matplotlib
 sudo apt-get install python-dev
+sudo apt-get install ipython3
+sudo apt-get install python3-numpy
+sudo apt-get install python3-scipy
+sudo apt-get install python3-matplotlib
+sudo apt-get install python3-dev
 sudo apt-get install git
 sudo apt-get install python-sphinx
 sudo apt-get install gfortran
