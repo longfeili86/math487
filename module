@@ -1,0 +1,286 @@
+#! /bin/csh -f
+# define the environment for different machines
+# this script can be executed with the module alias as defined in my .cshrc
+#
+#
+
+# Here is the current release number (used by makeOverture.s and makecg.s to build a distribution)
+
+# setenv OvertureRelease "v25j"
+#  -- includes fixes for Mac: 2014/08/24: 
+# setenv OvertureRelease "v25k"
+# August 2015
+setenv OvertureRelease "v26"
+# October 2016
+setenv OvertureRelease "v27"
+
+
+set version = `gcc --version`
+
+
+#Longfei 20161130: my filename is overtureframwork instead of overtureFramwork
+setenv OvertureCheckout $HOME/overtureframework/Overture
+setenv OvertureUsePETSc "-DOVERTURE_USE_PETSC"
+
+# Here is where we can find the perl include files and library
+# setenv OV_PERL_LIB   "/usr/lib64/perl5/5.8.8/x86_64-linux-thread-multi/CORE"
+setenv OV_PERL_LIB   "/usr/lib64/perl5/CORE"
+setenv OV_PERL_INCLUDE ${OV_PERL_LIB}
+# Here are the perl libraries we need to link to
+setenv OV_PERL_LIBRARIES "-Wl,-rpath,${OV_PERL_LIB} -L${OV_PERL_LIB} -lperl -lcrypt"
+setenv OV_PERL_INCLUDE ${OV_PERL_LIB}
+
+# used in Overture/config/Makefile.intel 
+# setenv OV_COMPILER_LIBS "-Wl,-rpath,/usr/apps/gcc/4.3.2/lib64 -L/usr/apps/gcc/4.3.2/lib64"
+
+#Longfei 20161130: I don't have chemkin
+#setenv CHEMKIN /home/henshaw/chemkin.intel
+
+setenv useOgmg "useOgmg"
+
+#setenv LAPACK /usr/lib64
+setenv LAPACK $HOME/software/LAPACK
+
+setenv usePETSc yes
+
+# echo "module: 1=$1
+if ( $1 != "" ) then
+  set args = ("$1")
+endif
+
+
+if ( $#args == 0 ) then
+  echo 'Usage: module machine'
+  echo ' machine = g, gg, p, ov12, ov12g, ov12d  '
+  exit
+else
+  set machine = $args[1]
+endif
+
+setenv PRECISION ""
+setenv OverturePrecision ""
+
+setenv CC "CC"
+setenv cc "cc"
+setenv FC "gfortran"
+
+
+unsetenv CGBUILDPREFIX
+
+# setenv PETSC_DIR $HOME/software/petsc-2.3.2
+# newer petsc : 2015/08/31
+setenv OV_USE_PETSC_3 3.4.5
+#  -- these next two are not working yet
+# setenv OV_USE_PETSC_3 3.5.4
+# setenv OV_USE_PETSC_3 3.6
+unsetenv OV_USE_HYPRE 
+setenv PETSC_DIR $HOME/software/petsc-3.4.5-serial
+# setenv PETSC_DIR $HOME/software/petsc-3.5.4-serial
+## setenv PETSC_DIR $HOME/software/petsc-3.6.1-serial
+setenv PETSC_ARCH linux-gnu-opt
+# setenv PETSC_ARCH linux-gnu
+# setenv PETSC_LIB $PETSC_DIR/lib/$PETSC_ARCH
+setenv PETSC_LIB $PETSC_DIR/$PETSC_ARCH/lib
+
+# CG : location of cg source: 
+setenv CG $OVHOME/cg
+
+# Location for distributions:
+# Longfei 20161130: note I dont have distributions ....
+#setenv DISTHOME /data1/henshw
+
+ 
+setenv GL_LIBS "-lGLU -lGL -lOSMesa"
+setenv XLIBS /usr
+setenv MOTIF /usr
+
+
+# ----------------------------------------------------------------------------------------------
+if ( $machine == "g" || $machine == "p" ) then
+
+  echo "set environment for $machine (g=serial, p=parallel, b=no-X11)"
+
+  setenv OpenGL $HOME/software/Mesa-7.2
+  # Old setenv HDF $HOME/software/hdf5-1.8.8-gcc4.4.7
+  setenv HDF $HOME/software/hdf5-1.8.8-serial
+
+  set app = $HOME/software/A++P++-0.8.2-serial/A++/install
+  setenv APlusPlus $app
+  setenv PPlusPlus $app
+
+  setenv Overture $HOME/Overture.$machine 
+  setenv OvertureBuild $HOME/Overture.$machine
+
+  setenv CGBUILDPREFIX $HOME/cg.$machine
+
+
+  if( $machine == "p" ) then
+    #echo "parallel version is not working yet..." 
+    # Parallel 
+    # set app = $HOME/software/AppPpp-0.8.1-gcc4.4.7-parallel/P++/install
+    #set app = $HOME/software/A++P++-0.8.2-parallel-openmpi/P++/install
+    set app = $HOME/software/A++P++-0.8.2-parallel-mpich/P++/install
+    # parallel debug
+    ## set app = $HOME/software/AppPpp-0.8.2-gcc4.4.7-parallel-debug/P++/install
+
+    setenv APlusPlus $app
+    setenv PPlusPlus $app
+
+    # old setenv HDF $HOME/software/hdf5-1.8.8-gcc4.4.7-parallel
+    # setenv HDF $HOME/software/hdf5-1.8.15-gcc4.4.7-parallel
+    #setenv HDF $HOME/software/hdf5-1.8.8-parallel
+    #setenv HDF $HOME/software/hdf5-1.8.8-parallel-openmpi
+    setenv HDF $HOME/software/hdf5-1.8.8-parallel-mpich
+
+    # setenv PETSC_DIR $HOME/software/petsc-2.3.2-parallel
+    #setenv PETSC_DIR $HOME/software/petsc-3.4.5-parallel-openmpi
+    setenv PETSC_DIR $HOME/software/petsc-3.4.5-parallel-mpich
+    # version compiled with hypre:
+    # setenv PETSC_DIR $HOME/software/petsc-2.3.2-parallel-hypre
+    # new version: 
+    #setenv PETSC_DIR $HOME/software/petsc-3.4.5-parallel-hypre
+    #setenv OV_USE_HYPRE HYPRE
+
+
+    setenv PETSC_ARCH linux-gnu-opt
+    # debug version:
+    # setenv PETSC_ARCH linux-gnu
+    # v2 setenv PETSC_LIB $PETSC_DIR/lib/$PETSC_ARCH
+    setenv PETSC_LIB $PETSC_DIR/$PETSC_ARCH/lib
+
+    unsetenv HYPRE
+    unsetenv HYPRE_LIBS
+     # setenv HYPRE /home/henshaw.0/petsc/petsc-2.3.2-mpi/externalpackages/hypre-1.11.1b/linux-gnu-opt
+     #  setenv HYPRE_LIBS "-Wl,-rpath,$HYPRE/lib -L$HYPRE/lib -lHYPRE_DistributedMatrix -lHYPRE_DistributedMatrixPilutSolver -lHYPRE_Euclid -lHYPRE_IJ_mv -lHYPRE_LSI -lHYPRE_MatrixMatrix -lHYPRE_ParaSails -lHYPRE_krylov -lHYPRE_parcsr_ls -lHYPRE_parcsr_mv -lHYPRE_seq_mv -lHYPRE_sstruct_ls -lHYPRE_sstruct_mv -lHYPRE_struct_ls -lHYPRE_struct_mv"
+
+    setenv USE_PPP_FLAG "-DUSE_PPP -I${MPI_ROOT}/include"
+    setenv DEFINE_PPP_LIBRARIES "-Wl,-rpath,${APlusPlus}/lib -L${APlusPlus}/lib -lPpp -lPpp_static -Wl,-rpath,/usr/apps/gcc/3.4.4/lib -Wl,-rpath,${MPI_ROOT}/lib -L${MPI_ROOT}/lib -lmpich -lmpl"
+
+  else
+    unsetenv USE_PPP_FLAG
+    unsetenv DEFINE_PPP_LIBRARIES
+  endif
+
+
+##  setenv LD_LIBRARY_PATH /usr/lib64/compat-openmpi-psm/lib:$HDF/lib:$OpenGL/lib64:$MOTIF/lib:$XLIBS/lib:$Overture/lib:${APlusPlus}/lib:${PETSC_LIB}:${LAPACK}
+  setenv LD_LIBRARY_PATH $HDF/lib:$OpenGL/lib64:$MOTIF/lib:$XLIBS/lib:$Overture/lib:${APlusPlus}/lib:${PETSC_LIB}:${LAPACK}
+
+
+# ----------------------------------------------------------------------------------------------
+else if( $machine == "v25g" || $machine == "v25g.d" || $machine == "v25g.p" ||  $machine == "v25h" || $machine == "v25h.d" ||  $machine == "v25i" || $machine == "v25i.d"  ||  $machine == "v25j" || $machine == "v25j.d" ||  $machine == "v25k" || $machine == "v25k.d" ||  $machine == "v26" || $machine == "v26.d" || $machine == "v26.p" ||  $machine == "v27" || $machine == "v27.d" || $machine == "v27.p" ) then
+
+  echo "set environment for $machine (g=serial, p=parallel)"
+  echo "I dont have any distributions ... "
+
+  # strip off ".d" or .p from the name: 
+  set base = `echo $machine | sed 's/\.[d|p]//'`
+  # set base = `echo $machine | cut -c1-4`
+  echo "base= [$base]"
+
+  setenv CG $DISTHOME/cg.$base
+  setenv CGBUILDPREFIX $DISTHOME/cg.$machine
+
+  setenv OpenGL $HOME/software/Mesa-7.2
+  setenv Overture $DISTHOME/Overture.$machine 
+  setenv OvertureBuild $DISTHOME/Overture.$machine
+
+  setenv HDF $HOME/software/hdf5-1.8.8-gcc4.4.7
+  set app = $HOME/software/AppPpp-0.8.1-gcc4.4.7/A++/install
+  setenv APlusPlus $app
+  setenv PPlusPlus $app
+
+  if( $machine == "p" ) then
+    # Parallel 
+    set app = $HOME/software/AppPpp-0.8.1-gcc4.4.7-parallel/P++/install
+    setenv APlusPlus $app
+    setenv PPlusPlus $app
+
+    setenv HDF $HOME/software/hdf5-1.8.8-gcc4.4.7-parallel
+
+
+    setenv PETSC_DIR $HOME/software/petsc-2.3.2-parallel
+    setenv PETSC_ARCH linux-gnu-opt
+    # debug version:
+    # setenv PETSC_ARCH linux-gnu
+    setenv PETSC_LIB $PETSC_DIR/lib/$PETSC_ARCH
+
+    unsetenv HYPRE
+    unsetenv HYPRE_LIBS
+     # setenv HYPRE /home/henshaw.0/petsc/petsc-2.3.2-mpi/externalpackages/hypre-1.11.1b/linux-gnu-opt
+     #  setenv HYPRE_LIBS "-Wl,-rpath,$HYPRE/lib -L$HYPRE/lib -lHYPRE_DistributedMatrix -lHYPRE_DistributedMatrixPilutSolver -lHYPRE_Euclid -lHYPRE_IJ_mv -lHYPRE_LSI -lHYPRE_MatrixMatrix -lHYPRE_ParaSails -lHYPRE_krylov -lHYPRE_parcsr_ls -lHYPRE_parcsr_mv -lHYPRE_seq_mv -lHYPRE_sstruct_ls -lHYPRE_sstruct_mv -lHYPRE_struct_ls -lHYPRE_struct_mv"
+
+    setenv USE_PPP_FLAG "-DUSE_PPP -I${MPI_ROOT}/include"
+    setenv DEFINE_PPP_LIBRARIES "-Wl,-rpath,${APlusPlus}/lib -L${APlusPlus}/lib -lPpp -lPpp_static -Wl,-rpath,/usr/apps/gcc/3.4.4/lib -L${MPI_ROOT}/lib -lpmpich -lmpich"
+
+  else
+    unsetenv USE_PPP_FLAG
+    unsetenv DEFINE_PPP_LIBRARIES
+  endif
+
+
+  setenv  LD_LIBRARY_PATH $HDF/lib:$OpenGL/lib64:$MOTIF/lib:$XLIBS/lib:$Overture/lib:${APlusPlus}/lib:${PETSC_LIB}:${LAPACK}
+
+else
+  echo "Unknown machine = $machine"
+  echo 'Usage: module machine'
+  echo ' machine = g, p'
+
+endif
+
+  alias plotStuff $Overture/bin/plotStuff
+
+  alias cgcns ${CGBUILDPREFIX}/cns/bin/cgcns
+  alias cgins ${CGBUILDPREFIX}/ins/bin/cgins
+  alias cgasf ${CGBUILDPREFIX}/asf/bin/cgasf
+  alias cgmp  ${CGBUILDPREFIX}/mp/bin/cgmp 
+  alias cgad  ${CGBUILDPREFIX}/ad/bin/cgad 
+  alias cgmx  ${CGBUILDPREFIX}/mx/bin/cgmx 
+  alias cgsm  ${CGBUILDPREFIX}/sm/bin/cgsm 
+  alias st    ${CGBUILDPREFIX}/cent/bin/st
+  alias cgcent ${CGBUILDPREFIX}/cent/bin/cgcent
+
+  alias comp ${OvertureBuild}/bin/comp
+  set compx = ${OvertureBuild}/bin/comp
+
+  set cgad  = ${CGBUILDPREFIX}/ad/bin/cgad
+  set cgcns = ${CGBUILDPREFIX}/cns/bin/cgcns
+  set cgins = ${CGBUILDPREFIX}/ins/bin/cgins
+  set cgmx  = ${CGBUILDPREFIX}/mx/bin/cgmx
+  set cgmp  = ${CGBUILDPREFIX}/mp/bin/cgmp
+  set cgsm  = ${CGBUILDPREFIX}/sm/bin/cgsm
+
+  alias ogen ${OvertureBuild}/bin/ogen
+  alias rap ${OvertureBuild}/bin/rap
+  alias mbuilder ${OvertureBuild}/bin/mbuilder
+
+  # define executables
+  set ogenx  = ${Overture}/bin/ogen
+  set cgadx  = ${CGBUILDPREFIX}/ad/bin/cgad
+  set cgmpx  = ${CGBUILDPREFIX}/mp/bin/cgmp
+  set cgasfx = ${CGBUILDPREFIX}/asf/bin/cgasf
+  set cgcnsx = ${CGBUILDPREFIX}/cns/bin/cgcns
+  set cginsx = ${CGBUILDPREFIX}/ins/bin/cgins
+  set cgsmx  = ${CGBUILDPREFIX}/sm/bin/cgsm
+  set cgmxx  = ${CGBUILDPREFIX}/mx/bin/cgmx
+
+  set plotStuffx = $Overture/bin/plotStuff
+
+  # parallel executables -- do we still need these ?
+  set cgadp  = ${CGBUILDPREFIX}/ad/bin/cgad
+  set cgmpp  = ${CGBUILDPREFIX}/mp/bin/cgmp
+  set cgasfp = ${CGBUILDPREFIX}/asf/bin/cgasf
+  set cgcnsp = ${CGBUILDPREFIX}/cns/bin/cgcns
+  set cginsp = ${CGBUILDPREFIX}/ins/bin/cgins
+  set cgsmp  = ${CGBUILDPREFIX}/sm/bin/cgsm
+  set cgmxp  = ${CGBUILDPREFIX}/mx/bin/cgmx
+
+  # unit test routines:
+  set tbm = ${CGBUILDPREFIX}/unitTests/bin/tbm
+  alias tbm $tbm
+  set trb = ${CGBUILDPREFIX}/unitTests/bin/trb
+  alias trb $trb
+
+  # hyperbolic grid generator
+  set hypep  = ${OvertureCheckout}/hype/hype
+
+
