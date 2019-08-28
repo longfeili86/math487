@@ -1,72 +1,60 @@
+#!/usr/bin/env python
 """
-This code computes pi. It's not the first python
-pi computation tool that I've written.  This program
-is a good test of the mpi4py library, which is
-essentially a python wrapper to the C MPI library.
-To execute this code:
-mpiexec -np NUMBER_OF_PROCESSES -f NODES_FILE python mpipypi.py
-where....
-NUMBER_OF_PROCESSES is the number of desired processes.
-NODES_FILE is a file which records the location of your nodes.
-""" 
+Parallel PI computation using Collective Communication Operations (CCO)
+within Python objects exposing memory buffers (requires NumPy).
+usage::
+  $ mpiexec -n <nprocs> python cpi-buf.py
+"""
+
+
 
 from mpi4py import MPI
+from math   import pi as PI
+from numpy  import array
+
+def get_n():
+    n=100000000;
+    prompt  = "The number of intervals: "
+    #print(prompt,n)
+    # try:
+    #     n = int(input(prompt))
+    #     if n < 0: n = 0
+    # except:
+    #     n = 0
+    return n
+
+def comp_pi(n, myrank=0, nprocs=1):
+    h = 1.0 / n
+    s = 0.0
+    for i in range(myrank + 1, n + 1, nprocs):
+        x = h * (i - 0.5)
+        s += 4.0 / (1.0 + x**2)
+    return s * h
+
+def prn_pi(pi, PI):
+    message = "pi is approximately %.16f, error is %.16f"
+    print  (message % (pi, abs(pi - PI)))
 
 comm = MPI.COMM_WORLD
-rank = comm.Get_rank()
-size = comm.Get_size()
+nprocs = comm.Get_size()
+myrank = comm.Get_rank()
 
-slice_size = 1000000
-total_slices = 50
+n    = array(0, dtype=int)
+pi   = array(0, dtype=float)
+mypi = array(0, dtype=float)
 
-# This is the master node.
-if rank == 0:
-    pi = 0
-    slice = 0
-    process = 1
-
-    print size
-
-    # Send the first batch of processes to the nodes.
-    while process < size and slice < total_slices:
-        comm.send(slice, dest=process, tag=1)
-        print "Sending slice",slice,"to process",process
-        slice += 1
-        process += 1
-
-    # Wait for the data to come back
-    received_processes = 0
-    while received_processes < total_slices:
-        pi += comm.recv(source=MPI.ANY_SOURCE, tag=1)
-        process = comm.recv(source=MPI.ANY_SOURCE, tag=2)
-        print "Recieved data from process", process
-        received_processes += 1
-
-        if slice < total_slices:
-            comm.send(slice, dest=process, tag=1)
-            print "Sending slice",slice,"to process",process
-            slice += 1
-
-    # Send the shutdown signal
-    for process in range(1,size):
-        comm.send(-1, dest=process, tag=1)
-
-    print "Pi is ", 4.0 * pi
-
-# These are the slave nodes, where rank > 0. They do the real work
-else:
-    while True:
-        start = comm.recv(source=0, tag=1)
-        if start == -1: break
-
-        i = 0
-        slice_value = 0
-        while i < slice_size:
-            if i%2 == 0:
-                slice_value += 1.0 / (2*(start*slice_size+i)+1)
-            else:
-                slice_value -= 1.0 / (2*(start*slice_size+i)+1)
-            i += 1
-
-        comm.send(slice_value, dest=0, tag=1)
-        comm.send(rank, dest=0, tag=2)
+ss=False
+while not ss:
+    ss=True
+    if myrank == 0:
+        _n = get_n()
+        n.fill(_n)
+    comm.Bcast([n, MPI.INT], root=0)
+    if n == 0:
+        break
+    _mypi = comp_pi(n, myrank, nprocs)
+    mypi.fill(_mypi)
+    comm.Reduce([mypi, MPI.DOUBLE], [pi, MPI.DOUBLE],
+                op=MPI.SUM, root=0)
+    if myrank == 0:
+        prn_pi(pi, PI)
