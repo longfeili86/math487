@@ -1,0 +1,70 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Homework 1}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  urlcolor=blue
+}
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+This is homework is due on: {\color{red}09/20/2019} 
+
+
+Please email your code to me at \href{mailto:longfei@louisiana.edu}{longfei@louisiana.edu} before due date. \\
+
+
+
+ 
+\begin{enumerate}
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item  Use Newton's method to derive an algorithm that computes the cube root of a number, i.e., $\sqrt[3]{S}$. Implement this algorithm using python.  A starter code ``mycbrt.py" is provided, so please finish the definition in that file.
+
+\item Can you extend your algorithm to compute the $n^\text{th}$ root of a number, i.e., $\sqrt[n]{S}$?  
+ The starter code ``nthrt.py" is provided, so please finish the definition in that file.
+\end{enumerate}
+
+Test your codes extensively to eliminate all possible bugs.
+
+
+\end{document}
