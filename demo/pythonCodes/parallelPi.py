@@ -13,7 +13,7 @@ from math   import pi as PI
 from numpy  import array
 
 def get_n():
-    n=100000000;
+    n=10000000;
     prompt  = "The number of intervals: "
     #print(prompt,n)
     # try:
