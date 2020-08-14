@@ -1,0 +1,28 @@
+
+\frametitle{Floating Point  Notation}
+
+Python float is 8 bytes with IEEE standard representation.
+53 bits for mantissa and 11 bits for exponent (64 bits = 8 bytes). We can store 52 binary bits of precision.
+$$
+2^{-52} \approx 2.2 \times 10^{-16}
+$$
+Roughly, 15 digits of precision
+
+For example,
+\begin{verbatim}
+In [1]: from numpy import pi
+
+In [2]: pi
+Out[2]: 3.141592653589793
+
+In [3]: 1000*pi
+Out[3]: 3141.592653589793
+
+In [4]: pi/1000
+Out[4]: 0.0031415926535897933
+
+\end{verbatim}
+
+Note: the decimal point is moving (floating) as oppose to the fixed point representation.
+
+Note:  storage and arithmetic is done in base 2 and converted to base 10 only for printing.

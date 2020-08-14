@@ -1,0 +1,139 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Homework 2}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  urlcolor=blue
+}
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+This is homework is due on: {\color{red}10/11/2019} 
+
+
+Please email your code to me at \href{mailto:longfei.li@louisiana.edu}{longfei.li@louisiana.edu} before due date. \\
+
+
+\section{Define Functions}\label{sec:funcDef}
+ 
+\begin{enumerate}
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item Write a Pyton function that solves the linear system $Ax=b$, where $A$ is an $n\times n$ tridiangal matrix with $-2$ on the main diagnal and $1$ on the diagnals above and below the main diagnal, i.e.,
+  $$
+  \begin{bmatrix}
+    -2 & 1 & 0 & 0 &\dots& 0  & 0&0 &0 \\
+    1 & -2 & 1 & 0 &\dots& 0  & 0&0 &0\\
+    0 & 1 & -2 & 1 &\dots&  0  & 0&0 &0\\
+    &   &\ddots  & \ddots & \ddots & & &   \\
+    &    &   &\ddots  & \ddots & \ddots & &    \\
+    & & & &\ddots  & \ddots & \ddots &     \\
+     0  & 0&0 &0 &\dots  & -1& -2 & 1 & 0 \\
+     0  & 0&0 &0  &\dots& 0 & 1 & -2 & 1 \\
+      0  & 0&0 &0  &\dots& 0 &  0 & 1 & -2 \\
+    \end{bmatrix}_{n\times n}
+  $$
+  And the vector $b$ is given by
+  $$
+  b=\begin{bmatrix}
+  0\\
+  0\\
+  \vdots\\
+  0\\
+  -n-1
+  \end{bmatrix}_{n \times 1}
+  $$
+
+The starter code for this problem is given in $\texttt{funcDef.py: solveLinearSystem(n,debug=False)}$ 
+
+%%%%%%%%%%%%% problem 2 %%%%%%%%%%%%% 
+\item
+Write a Pyton  function to interpolate data points (xdata,ydata) using
+  both linear and cubic spline interpolations.  The starter code for this problem is given in $\texttt{funcDef.py}$. Please finish the definition for the function $\texttt{interpolation1d(xdata,ydata,debug=False)}$
+
+%%%%%%%%%%%%% problem 3 %%%%%%%%%%%%% 
+\item Write a Python function to interpolate data points (xdata,ydata,zdata) using
+ both linear and cubic spline interpolations.
+  The starter code for this problem is given in $\texttt{funcDef.py}$. Please finish the definition for the function $\texttt{interpolation2d(xdata,ydata,zdata,debug=False)}$
+
+
+\end{enumerate}
+
+\section{Test your functions}
+Write a test script to test the functions you developed for Section~\ref{sec:funcDef}. We have the following requirment for your tests for each problem.
+\begin{enumerate}
+\item solve the linear system for $n=10,100,1000$, respectively.
+\item Using the given function
+  $
+  f=\cos(2\pi x)
+  $
+  to create  11 equally spaced data points on the interval $[-1,1]$.    Plot the interpolation polynomials, data points, and the known function in one figure. Make sure you have the appropriate legend for each plot.
+  \item  Consider the given function
+  $
+  f=\cos(2\pi x)\cos(2\pi y)
+  $. Randomly generate $n$ points on the domain [-1,1]x[-1,1]. Consider the case $n=50,100,  1000$and plot the interpolation polynomials, and the known function with sampled data points  in one 3 by 3 subplots.The subplots panel should have the following layout:
+  \begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+      \hline
+      linear interp  $n=50$ & cubic interp  $n=50$ &  known function with  50 samples\\      \hline
+      linear interp  $n=100$ & cubic interp  $n=100$ &  known function with  100 samples\\      \hline
+            linear interp  $n=1000$ & cubic interp  $n=1000$ &  known  function with 1000 samples\\      \hline
+    \end{tabular}
+  \end{table}
+
+\end{enumerate}
+
+\section{Hints for Each Problem}
+\begin{enumerate}
+\item Look for examples in Lecture 4 to create the matrix. You might want to use the $\texttt{eye}$ method from numpy
+\item Look for examples in Lecture 8.
+  \item Look for examples in Lecture 9.
+\end{enumerate}
+
+
+\section{Files to Submit}
+Please submit two python files: $\texttt{funcDef.py}$ and $\texttt{test.py}$.
+Please do not change the function interface and the filenames of the starter codes.
+
+
+\end{document}

@@ -1,0 +1,30 @@
+
+\frametitle{Compute Square Roots}
+\textcolor{gray}{\bf\large How to compute square root of 2?}\\
+Hardware arithmetic units can add, subtract, multiply, divide. Other mathematical functions usually take some software.\\
+
+In Matlab:
+\begin{verbatim}
+>> sqrt(2)
+
+ans =
+
+    1.4142
+
+>> format long
+>> sqrt(2)
+
+ans =
+
+   1.414213562373095
+\end{verbatim}
+
+In python:
+\begin{verbatim}
+In [1]: from numpy import sqrt
+
+In [2]: sqrt(2)
+Out[2]: 1.4142135623730951
+\end{verbatim}
+
+

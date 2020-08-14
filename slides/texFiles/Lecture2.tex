@@ -1,0 +1,125 @@
+\begin{frame}[fragile]
+
+\frametitle{Compute Square Roots}
+\textcolor{gray}{\bf\large How to compute square root of 2?}\\ 
+Hardware arithmetic units can add, subtract, multiply, divide. Other mathematical functions usually take some software.\\
+
+In Matlab:
+\begin{verbatim} 
+>> sqrt(2)
+
+ans =
+
+    1.4142
+
+>> format long
+>> sqrt(2)
+
+ans =
+
+   1.414213562373095
+\end{verbatim}
+
+In python:
+\begin{verbatim} 
+In [1]: from numpy import sqrt
+
+In [2]: sqrt(2)
+Out[2]: 1.4142135623730951
+\end{verbatim}
+
+  
+\end{frame}
+
+
+
+
+
+\frame{
+\frametitle{Compute Square Roots}
+
+
+Can we implement an algorithm to compute $\sqrt{2}$?\\
+\vspace{0.05in}
+
+\textcolor{gray}{\bf\large Algorithm}\\
+\vspace{0.05in}
+Babylonian method:
+\begin{align*}
+ &x_0 \approx \sqrt{S} && \text{\# Start with a initial guess}\\
+&x_{n+1} =\frac{1}{2}\left(x_n+\frac{S}{x_n}\right)& & \text{\# iteration or updating function}\\
+& \lim_{n\rightarrow\infty} x_{n}=\sqrt{S} &&    \text{\# theory}
+\end{align*}
+
+The basic idea:
+\begin{itemize}
+\item if $x_n>\sqrt{S}$ (overestimate), then $\displaystyle \frac{{S}}{x}< \sqrt{S}$ (underestimate) 
+\item if $x_n<\sqrt{S}$  (underestimate), then $\displaystyle \frac{{S}}{x}< \sqrt{S}$ (overestimate)
+\item anyway, the average $ \displaystyle x_{n+1} =\frac{1}{2}\left(x_n+\frac{S}{x_n}\right)$ is a better estimate
+\end{itemize}
+
+{\bf Remark}: we will not let the iteration go to $\infty$, instead, we'll stop at $N$. 
+
+{\bf Stop Criteria}: 
+we stop the iteration when
+$$
+|x_{n+1}-x_{n}| < \text{tol},~~(\text{tol is a small number for tollerance})
+$$
+
+
+
+}
+
+
+
+\frame{
+\frametitle{Compute Square Roots}
+\vspace{0.1in}
+
+\textcolor{gray}{\bf\large Newton's Method}\\
+In fact, the  Babylonian method can also be derived from Newton's method  to find  the root of $S -x^2 =0$. \\
+
+{\blue Problem}: Find a solution of $f(x) = 0$ (zero or root of $f$) 
+
+{\blue Alogorithm}: 
+\begin{align*}
+ &x_0  = \text{given} && \text{\# Start with a initial guess}\\
+&x_{n+1} =x_n-\frac{f(x_n)}{f'(x_n)} && \text{\# iteration or updating function}\\
+& \lim_{n\rightarrow\infty} x_{n}=z~\text{and} ~f(z)=0&&    \text{\# theory}
+\end{align*}
+
+}
+
+
+\frame{
+\frametitle{Compute Square Roots}
+
+\vspace{0.1in}
+\textcolor{gray}{\bf\large Python Demo}\\
+\begin{itemize}
+\item Develop our own version of \texttt{sqrt} function
+\item Adding more functionalities along with our development (e.g., debug option)
+\item Illustrate more Python programming  along the way
+\end{itemize} 
+
+
+\vspace{0.2in}
+\begin{center}
+{\red\large\bf  Homework 1 will be posted. See moodle for details. }
+\end{center}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

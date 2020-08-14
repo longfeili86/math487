@@ -1,0 +1,120 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Midterm Project}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+
+Please write a short report for each problem that includes necessary  explanations, codes, plots (if any),  numerical results and discussions.\\
+You can use either Python or MATLAB for this project.\\
+\textcolor{red}{Due: December 6, 2019\\
+File to submit: a pdf file for your report.
+}
+
+\begin{enumerate}
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item  Solve the initial value problem 
+$$
+\begin{cases}
+y'= -2 y\\
+y(0)=1
+\end{cases}
+$$
+Using Forward Euler, Backward Euler and 3rd-order  Runge-Kutta (RK3) schemes.   \\
+
+Let $Y^n=y(t_n)$, then the schemes for solving the general ODE $y'=f(t,y)$ are given as following.
+\begin{itemize}
+\item Forward Euler:
+ $$
+ \frac{Y^{n+1}- Y^{n}}{\Delta t } =  f(t_n,Y^n) \
+  $$
+\item Backward Euler:
+ $$
+ \frac{Y^{n+1}- Y^{n}}{\Delta t } =  f(t_{n+1},Y^{n+1})
+  $$
+\item RK3:
+\begin{align*}
+&Y^{n+1}=Y^n+\frac{\Delta t}{6}(k_1+k_2+\textcolor{red}{4}k_3)\\
+&k_1=f(Y^n,t^n)\\
+&k_2=f(Y^n+\Delta t k_1,t^n+\Delta t),\\
+&k_3=f\left(Y^n+\frac{\Delta t}{4}(k_1+k_2),t^n+\frac{\Delta t}{2}\right)
+\end{align*}
+\end{itemize}
+
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item Consider the advection problem with periodic boundary condition, 
+\begin{align*}
+&u_t+cu_x=0,~~0\leq x\leq 2\pi,~~0\leq t\leq t_{\text{final}}\\
+& u(x,0)=u_0(x),\\
+& u(x+2\pi,t)=u(x,t),
+\end{align*}
+where $c=1$ and $u_0(x)=\sin(6x)$. Compute the solution up-to $t_\text{final}=\pi/2$.
+
+Consider solving this problem using 
+\begin{enumerate}[(i)]
+\item The first-order upwind scheme 
+$$
+D_{+t}U_i^n+cD_{-x}{U_i^n}=0,
+$$
+where 
+$$
+D_{+t}U_i^n = \frac{U^{n+1}_i-U^{n}_i}{\Delta t},~~\text{and}~~
+D_{-x}{U_i^n}= \frac{U^{n}_i-U^{n}_{i-1}}{\Delta x}.
+$$
+\item   Backward Euler scheme
+$$
+D_{-t}U_i^{n+1}+cD_{0x}{U_i^{n+1}}=0,
+$$
+where 
+$$
+D_{-t}U_i^{n+1} = \frac{U^{n+1}_i-U^{n}_i}{\Delta t},~~\text{and}~~
+D_{0x}{U_i^{n+1}}= \frac{U^{n+1}_{i+1}-U^{n+1}_{i-1}}{2\Delta x}.
+$$
+
+
+\end{enumerate}
+For both schemes,  we assume $\Delta x=1/40$, and consider $\lambda=0.8, 1.2$ and $2$ where  $\lambda=\frac{\Delta t}{\Delta x}$. What can you say about both schemes?
+
+
+\end{enumerate}
+
+
+\end{document}

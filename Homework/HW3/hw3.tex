@@ -1,0 +1,218 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Homework 3}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  urlcolor=blue
+}
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+ % aboveskip=3mm,
+  %belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+This is homework is due on: {\color{red}11/01/2019} 
+
+
+Please email your code to me at \href{mailto:longfei.li@louisiana.edu}{longfei.li@louisiana.edu} before due date. \\
+
+\section{Function Definitions}
+
+ 
+\begin{enumerate}
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item  Write a {python} function to compute 
+$$
+\int_a^bf(x)\,dx,
+$$
+using the following  numerical  methods: Middle Point Rule, Trapezoidal Rule and Simpsons Rule (c.f. {\bf Lecture 10} ).
+Your python function should have the following declaration:
+
+
+\begin{lstlisting}[language=python, caption={myIntegration},label=code:myCode]
+# write a function that integrates a function f from a to b with n sample points using a given  method
+def myIntegration(f,a,b,n,method):
+    #Input:
+    #           f: a function integrant
+    #          a: lower limit of the integration
+    #          b: upper limit of the integration
+    #          n: number of data points to sample
+    # method: specify one of the methods: "middlePoint", "trapezoidal", "simpsons"
+    #Output:
+    #    value: results of integrating f from a to b
+    # your method can be one of the three methods:
+    if method=="middlePoint":
+        # implement middle point rule here
+        
+    elif method=="trapezoidal":
+        # implement trapezoidal rule here
+    elif method=="simpsons":
+       # implement simpsons rule here
+    else:
+        print("Unknown method specifed. We only support: middlePoint, trapezoidal, simpsons")
+        
+     return value
+\end{lstlisting}  
+
+Your code should check  that the inputs are valid; namely, you need to check the following situations
+\begin{itemize}
+\item we must have $a<b$
+\item $n$ must be a positive integer. (We need different  minimum numbers of data points for each method )
+\end{itemize}
+
+Test your code extensively to make sure it's working as expected by calling it to compute different examples.
+
+
+\item  Write a python function to solve the following two-point boundary value problem using the centered finite difference method.  
+$$ 
+  \begin{cases}
+    u''+u'=f,  & x\in(0,1),\\
+    u(0)=g_1,\\
+    u(1)=g_2,\\
+    \end{cases}
+  $$
+  where $f(x)$ is a given function, and $g_1$ and  $g_2$ are two given numbers for the boundary conditions. (refer to the matlab demo code \texttt{twoPointProblem.m} for hint.)
+
+Your python function should have the following declaration:
+\begin{lstlisting}[language=python, caption={solveTwoPointProblem},label=code:myCode]
+# write a function to solve the following  two-point boundary value problem:
+# u''+u'=f with u(0)=g_1, u(1)=g_2
+def solveTwoPointProblem(f,g1,g2,N):
+    #Inputs:
+    #       f: a given function for the RHS
+    #     g1: value for the left boundary condition
+    #     g2: value for the right boundary condition
+    #      N: number of grid points to use for the computation
+    #
+
+    # step 1: create matrix for the system
+    M=  # hint: M=D2+D1
+
+    # step 2: creat RHS
+    F=
+
+    # Implement boundary conditions:
+    # modify M:
+
+
+    # modify F:
+
+    # Solve the linear system: Mu = F to find the solution
+    
+
+    return u
+\end{lstlisting}
+
+
+Test your code by solving the following two cases:
+\begin{itemize}
+\item  $f=0, g_1=0, g_2=1$
+\item $f=-\pi^2\cos(\pi x)-\pi\sin(\pi x), g_1=1, g_2=-1$  
+\end{itemize}  
+It is helpful to work out the exact solution for each case when testing your code.
+
+
+\item Redo the previous problems using MATLAB; that is, write the following two MATLAB functions
+\begin{lstlisting}[language=matlab, caption={matlab function for problem 1},label=code:myCode]
+function value=myIntegration(f,a,b,n,method)
+% your implementation goes here      
+end
+\end{lstlisting}
+
+
+\begin{lstlisting}[language=matlab, caption={matlab function for problem 2},label=code:myCode]
+function  u=solveTwoPointProblem(f,g1,g2,N)
+% your implementation goes here      
+end
+\end{lstlisting}
+
+Note that MATLAB requires the function to be put inside a file with the same name. So you need the following matlab files:
+\begin{itemize}
+\item \texttt{myIntegration.m}
+  \item \texttt{solveTwoPointProblem.m}
+\end{itemize}
+
+
+%\lstinputlisting[language=python, caption={myIntegration},label=code:myCode]{funcDefs.py}
+
+\end{enumerate}
+
+
+\section{General Instructions}
+You want to test your code extensively to make sure it's working for various cases that you can think of. It is a good practice to have a test script to run all your tests; but you don't submit your test script this time.
+
+I have provided you a python starter code named ``funcDefs.py'' for you to put all your python functions. I do not provide starter code for MATLAB functions, but they should be similar as your python codes.
+
+
+\section{Files to Submit}
+Please do not change the function interface and the filenames of the starter codes. And please submit the following files for this homework:
+\begin{itemize}
+\item \texttt{funcDefs.py}
+\item \texttt{myIntegration.m}
+\item \texttt{solveTwoPointProblem.m}
+  \end{itemize}
+
+
+\end{document}

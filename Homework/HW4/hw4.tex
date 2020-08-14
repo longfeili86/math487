@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Homework 4}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks = true,
+  urlcolor=blue
+}
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{frame=tb,
+ % aboveskip=3mm,
+  %belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+This is homework is due on: {\color{red}11/22/2019} 
+
+
+Please email your code to me at \href{mailto:longfei.li@louisiana.edu}{longfei.li@louisiana.edu} before due date. \\
+
+
+ Solve the following convection-diffusion equation on a  domain $\Omega$:
+  $$
+  \begin{cases}
+    \displaystyle\frac{\partial u}{\partial t}+a\frac{\partial u}{\partial x}+b\frac{\partial u}{\partial y}=\nu\left( \frac{\partial ^2u }{\partial x^2}+\frac{\partial ^2u }{\partial y^2}\right), & (x,y)\in \Omega,~ t>0\\
+    u(x,y,0)=e^{-40((x-0.4)^2+y^2)}, & \text{initial condition}\\
+    u(x,y,t)=0, & \text{boundary condition} 
+    \end{cases}
+  $$
+  using forward Euler for time and centered finite difference for spatial variables. In the starter code (\texttt{finiteDifference.py}), I have provided two Python classes: \texttt{grid} and  \texttt{operator}:
+
+  
+\begin{lstlisting}[language=python, caption={\texttt{grid} class},label=code:myCode]
+class grid:
+    def __init__(self,domain,nx,ny):
+        # initiate grid with information for domain and number of grids in each direction
+        self.nx=nx
+        self.ny=ny
+        self.xa,self.xb,self.ya,self.yb=domain
+        self.x=np.linspace(self.xa,self.xb,self.nx)
+        self.y=np.linspace(self.ya,self.yb,self.ny)
+        self.hx=(self.xb-self.xa)/(self.nx-1)
+        self.hy=(self.yb-self.ya)/(self.ny-1)
+        self.xx,self.yy=np.meshgrid(self.x,self.y)
+        
+    def info(self):
+        print("basic information for this grid:\n")
+        print("domain: [%5.2f,%5.2f]X[%5.2f,%5.2f]\n"%(self.xa,self.xb,self.ya,self.yb))
+        print("number of grids in each direction: [%d,%d]"%(self.nx,self.ny))
+        print("grid spacing in each direction: [%5.2f,%5.2f]"%(self.hx,self.hy))
+\end{lstlisting}  
+
+\begin{lstlisting}[language=python, caption={\texttt{operator} class},label=code:myCode]
+class operator:
+    def __init__(self,grid):
+        self.grid=grid
+
+    # compute the x derivative of U
+    def x(self,U):
+        # implement the function to compute x derivative of U
+        # your code ......
+
+    # compute the y derivative of U  
+    def y(self,U):
+        # your code ......
+    
+    # compute the xx derivative of U
+    def xx(self,U):
+        Uxx=0*U
+        Uxx[1:-2,:]=(U[0:-3,:]-2*U[1:-2,:]+U[2:-1,:])/(self.grid.hx**2)
+        return Uxx 
+    # compute the yy derivative of U
+    def yy(self,U):
+        Uyy=0*U
+        Uyy[:,1:-2]=(U[:,0:-3]-2*U[:,1:-2]+U[:,2:-1])/(self.grid.hy**2)
+        return Uyy
+        
+\end{lstlisting}  
+
+ 
+\begin{enumerate}
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+\item Finish the definitions for the methods \texttt{x(self,U)} and \texttt{y(self,U)} that compute the $x$ and $y$ derivatives of a gridfunction $U$.
+
+\item Use the two classes to finish the definition of the function\\
+  $$
+  \texttt{solveConvectionDiffusionEqn2d(a,b,nu,tf,domain,nx,ny)}
+  $$
+  that solves the convection-diffusion equation using Forward Euler method in time and centered finite difference method in space.
+
+\item In a separate script, test your implementation by solving the case:
+  $$
+  a=b=\nu=1, \Omega=[-1,1]\times[-1,1]
+  $$
+  to the final time \texttt{tf=1.}
+  You do not need to submit the test script.
+
+\end{enumerate}
+
+File to submit: \color{red}{\texttt{finiteDifference.py}}
+
+\end{document}

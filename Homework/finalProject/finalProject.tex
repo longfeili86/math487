@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+\pagestyle{plain}
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1.in]{geometry}
+
+\usepackage{fancyhdr, lastpage}
+\usepackage{amsmath,amsthm}
+\usepackage{tikz}
+
+
+
+\usepackage{enumerate}
+\fancypagestyle{plain}
+{
+\lhead{}
+\rhead{}
+\lfoot{}
+\rfoot{\small{Page\ \thepage}}
+\renewcommand{\headrulewidth}{0pt}
+}
+\pagestyle{fancy}
+% \headrulewidth -2pt
+% \footrulewidth 0pt
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{\small\em Math 487, Fall 2019}
+\rhead{\small Instructor: Longfei Li}
+\chead{\small\em Final Project}
+\cfoot{}
+\lfoot{}
+% \rfoot{\small{Page\ \thepage\ of\ \pageref{LastPage}}}
+\rfoot{\small{Page\ \thepage}}
+
+
+
+\usepackage{graphicx,amssymb}
+\parindent=0pt
+
+
+
+\begin{document}
+
+%\begin{center}
+%{\large\bf Name:  }
+%\end{center}
+
+Please write a short report for each problem that includes necessary  explanations, codes, plots (if any),  numerical results and discussions.\\
+Use  Python  for this project.\\
+\textcolor{red}{Due: December 13, 2019\\
+File to submit: a pdf file for your report.
+}
+
+%%%%%%%%%%%%% problem 1 %%%%%%%%%%%%% 
+ Create a random variable that satisfies the normal distribution with mean value $\mu=0.5$ and standard deviation $\sigma=0.2$. (Hint: lecture 19)
+\begin{enumerate}
+\item sample the random variable 200 times.
+\item compute the descriptive statistics of the sampled data.
+\item plot the pdf of the random variable  and the histogram of the sampled data in the same figure.
+\item repeat the above problems with 5000 samples
+\item give some comment about what you observed
+\end{enumerate}
+
+
+\end{document}

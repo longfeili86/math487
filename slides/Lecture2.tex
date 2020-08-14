@@ -1,0 +1,157 @@
+\documentclass[8pt]{beamer}
+
+\graphicspath{{fig/}}
+
+\usetheme{Copenhagen}
+\usecolortheme{beaver}
+\usepackage{calc}
+\usepackage[small,center]{caption}
+\usepackage{times}
+\usepackage[absolute,overlay]{textpos} 
+\usefonttheme{structurebold}
+\usepackage[english]{babel}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps}
+\usepackage{amsmath,amssymb}
+\usepackage{amsxtra}
+\usepackage[latin1]{inputenc}
+\usepackage{algorithm2e} 
+\usepackage{verbatim}
+\usepackage{hyperref}
+
+%\usepackage{multimedia}
+  \usepackage[]{movie15}
+    %\usepackage[]{movie15}
+%\usepackage{pictex}
+% \usepackage[pdftex]{color}                  %for colors
+%\usepackage[pdftex]{graphicx}               %for importing graphics
+%\usepackage{times}                          %for nice fonts
+%\usepackage[pdftex]{hyperref}               %for hyperlinking and other
+%\usepackage{rotating}
+\definecolor{RPIred}{rgb}{ 0.87,0.12, 0.20}
+\definecolor{ballblue}{rgb}{0.13, 0.67, 0.8}
+\definecolor{lightgray}{rgb}{0.83, 0.83, 0.83}
+%\setbeamercolor{title}{bg=lightgray,fg=RPIred}
+%\setbeamercolor{frametitle}{bg=lightgray,fg=RPIred}
+\setbeamercolor{block title}{bg=lightgray,fg=RPIred}%bg=background, fg= foreground
+\setbeamercolor{block body}{bg=white,fg=black}%bg=background, fg= foreground
+\setbeamercovered{dynamic}
+\setbeamercolor*{item}{fg=RPIred}
+\setbeamercovered{invisible}  % invisible or transparent
+
+%-----------------------------------------------------------------------------------------------
+% Begin document
+%--------------------------
+% personal Macros
+%
+\include{drlmacros}
+%--------------------------
+
+%--------------------------
+% Title-Author-Date
+%
+\title[]{\huge Computational Mathematics (Math 487)}
+
+\author[Longfei Li]{\Large 
+University of Louisiana at Lafayette\\
+\bigskip
+ Instructor:  Longfei Li
+} 
+
+\date[FA2019]{Fall 2019}
+
+
+
+
+\captionsetup[subfigure]{labelformat=empty}
+\captionsetup[figure]{labelformat=empty}
+\setbeamertemplate{navigation symbols}{}
+
+\makeatletter
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,left]{title in head/foot}%
+    \usebeamerfont{title in head/foot}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\textcolor{black}{
+    \insertframenumber/\inserttotalframenumber\hspace*{2ex} }
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\makeatother
+
+%\setbeamercolor{page number in head/foot}{fg=green}
+%\setbeamerfont{page number in head/foot}{size=\large}
+%\setbeamertemplate{footline}[frame number]
+
+%\setbeamertemplate{headline}{\vspace{1.5cm}}
+
+%\AtBeginSection[]{\frame{\frametitle{Outline}\tableofcontents[current]}}
+
+% 
+\newcommand{\bc}[1]{\mbox{\bfss#1}}   % bold name
+\newcommand{\cc}[1]{\mbox{$//$  #1}}  % comment
+%
+\newcommand{\ia}{\qquad\qquad}        % indent level 1
+\newcommand{\ib}{\ia\quad}     % indent level 2
+\newcommand{\ic}{\ib\quad}     % indent level 3
+\newcommand{\id}{\ic\quad}     % indent level 4
+\newcommand{\ie}{\id\quad}     % indent level 5
+
+\newcommand{\FUNC}[1]{{\color{blue}#1}}
+\newcommand{\RETURN}{{\color{blue}Return}}
+\newcommand{\IF}{{\color{blue}if}}
+\newcommand{\ELSE}{{\color{blue}else}}
+\newcommand{\ELSEIF}{{\color{blue}else if}}
+\newcommand{\FOR}{{\color{blue}for}}
+% \newcommand{\COM}[1]{{\color{red}\em #1}}
+\newcommand{\COM}[1]{{\color{purple}\em #1}}
+
+
+
+\usepackage{tikz}
+\input texFiles/defs
+\input texFiles/trimFig
+\begin{document}
+
+%\setbeamertemplate{background}
+%{\includegraphics[width=\paperwidth,height=\paperheight]{front.jpg}}
+ \frame{
+
+\begin{figure}
+\centering
+\includegraphics[width=1.5in]{/Users/longfei/Dropbox/templates/LatexTemplates/logos/ULL_logo.png}
+ \end{figure}%        
+
+%\begin{textblock*}{\textwidth}(.5in,3in) 
+%\begin{columns}
+%\column{0.5\textwidth}
+%\column{0.5\textwidth}
+%\end{columns}
+%\end{textblock*} 
+\vspace{-0.2in}
+\titlepage
+}
+%\section*{Outline}
+
+\frame{
+\textcolor{gray}{\bf\large Reference:}
+\begin{itemize}
+\item[$\bullet$] \href{https://staff.washington.edu/rjl/classes/am583s2014/}{\em High Performance Scientific Computing (AMATH 483/583 course materials, Spring Quarter, 2014, University of Washington)},  Randall J. LeVeque.
+ \end{itemize}
+
+}
+
+\input texFiles/Lecture2
+
+
+
+
+
+\end{document}
+
+
+
+

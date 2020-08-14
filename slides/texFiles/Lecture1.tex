@@ -1,0 +1,192 @@
+\frame
+{
+\frametitle{Computer Memory}
+
+Common Units:
+\begin{itemize}
+\item[] bit: \quad binary digit (either an 'on' as 1  or an 'off' as 0)
+\item[] byte:\quad 8 bits
+\item[] KB: \quad 1 KB (Kilobyte)  = 1024 bytes
+\item[] MB:\quad 1 MB (Megabyte) = 1024 KB
+\item[] GB:\quad 1 GB (Gigabyte) =1024 MB
+\item[] TB:\quad 1 TB (Terabyte) =1024 GB
+\item[] PB:\quad 1 PB (Petabyte) = 1024 TB
+\item[] EB: \quad 1 EB (Exabyte) = 1024 PB
+\item[] more units: \quad ZB (Zettabyte), YB (Yottabye), etc.
+ \end{itemize}
+\bigskip
+
+\textcolor{gray}{\bf\large Storing A Big Matrix}\\
+\medskip
+Q:~How much disk space is required to store a $10, 000 \times 10, 000$ matrix of real numbers?
+
+ A:~Assuming 8 bytes (64 bits) are used for  each value.  A $10, 000 \times 10, 000$ matrix has $10^8$ elements
+  So this requires $8 \times 10^8$ bytes = 800 MB
+  
+}
+
+
+
+\begin{frame}[fragile]
+
+\frametitle{Computer Memory}
+
+Memory is subdivided into bytes (8 bits). One byte can store   $2^8=256$ distinct numbers: 
+\begin{table}[h]\begin{center}
+\begin{tabular}{ccc}
+binary &  & decimal\\ 
+\texttt{  00000000} &&       0\\
+\texttt{  00000001} &&       1\\
+\texttt{  00000010} &&       2\\
+\texttt{  00000011} &&       3\\
+ \vdots& & \vdots\\
+\texttt{  11111101} &&     253\\
+\texttt{  11111110} &&     254\\
+\texttt{  11111111} &&     255\\
+
+\end{tabular} 
+\end{center}\end{table}
+
+Might also represent characters, colors, etc.
+
+Usually programs involve integers and real numbers that require more than 1 byte to store.
+Often 4 bytes (32 bits) or 8 bytes (64 bits) used for each.
+
+\end{frame}
+
+\frame
+{
+\frametitle{Computer Memory}
+To store integers, need one bit for the sign ($+$ or $?$).  In one byte this would leave 7 bits for binary digits.
+
+Two-complements representation used:
+\begin{table}[h]\begin{center}
+\begin{tabular}{ccc}
+binary &  & decimal\\ 
+\texttt{  10000000} &&     -128\\
+\texttt{  10000001} &&     -127\\
+\texttt{  10000010} &&     -126\\
+\vdots && \vdots\\
+\texttt{  11111101} &&       -3\\
+\texttt{  11111110} &&       -2\\
+\texttt{  11111111} &&       -1\\
+\texttt{  00000000} &&        0\\
+\texttt{  00000001} &&        1\\
+\texttt{  00000010} &&        2\\
+\texttt{  00000011} &&        3\\
+\vdots && \vdots\\
+\texttt{  01111101} &&      125\\
+\texttt{  01111110} &&      126\\
+\texttt{  01111111} &&      127
+\end{tabular} 
+\end{center}\end{table}
+
+
+See MATLAB code: \texttt{oneByteNumbers.m}
+
+
+}
+
+
+\frame
+{
+\frametitle{Integers}
+Integers are typically stored in 4 bytes (32 bits). Values between  $-2^{31}$ and $2^{31}-1$ can be stored.
+In Python, larger integers can be stored and will automatically be stored using more bytes.
+
+
+}
+
+
+
+\begin{frame}[fragile]
+
+\frametitle{Fixed Point  Notation}
+$64$ bits for a real number but always assume $N$ bits in integer part and $M$ bits in fractional part.
+
+\medskip
+Analog in decimal arithmetic, e.g.,\\
+5 digits for integer part and\\
+6 digits in fractional part
+
+\begin{verbatim}
+        pi:         00003.141592
+pi / 10000:	        00000.000314
+pi * 10000:         31415.926535
+\end{verbatim}
+
+Not very good representation. 
+\begin{itemize}
+\item[$\bullet$]  Precision depends on size of number
+\item[$\bullet$]   Often many wasted bits (leading 0s)
+\item[$\bullet$]   Limited range; often scientific problems involve very large or small numbers
+\end{itemize}
+
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]
+
+\frametitle{Floating Point  Notation}
+\textcolor{gray}{\bf\large Scientific Representation}\\
+
+\begin{itemize}
+\item[$\bullet$] Decimal (base 10):\\
+\texttt{0.2345e-18} = $\red{0.2345} \times 10^{\blue{-18}} = 0.0000000000000000002345$\\
+\medskip
+\red{Mantissa:  0.2345}\\
+\blue{Exponent:  -18}\\
+\item[$\bullet$] Binary (base 2):\\
+Example: \red{Mantissa}: 0.101101, \blue{Exponent}: -11011 means:
+\begin{align*}
+0.101101 &= 1(2^{-1}) + 0(2^{-2}) + 1(2^{-3}) + 1(2^{-4}) + 0(2^{-5}) + 1(2^{-6}) \\
+	        &= 0.703125 (\text{in base 10})\\
+	        \\
+-11011 &= -[1(2^{4}) + 1(2^{3}) + 0(2^{2}) + 1(2^{1}) + 1(2^{0})  ]\\
+	        &=-27 (\text{in base 10})
+\end{align*}
+So the number  is
+$$
+ 0.703125 \times 2^{-27} \approx 5.2386894822120667 \times 10^{-9}
+$$
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Floating Point  Notation}
+
+Python float is 8 bytes with IEEE standard representation.
+53 bits for mantissa and 11 bits for exponent (64 bits = 8 bytes). We can store 52 binary bits of precision.
+$$
+2^{-52} \approx 2.2 \times 10^{-16} 
+$$
+Roughly, 15 digits of precision
+
+For example,
+\begin{verbatim}
+In [1]: from numpy import pi
+
+In [2]: pi
+Out[2]: 3.141592653589793
+
+In [3]: 1000*pi
+Out[3]: 3141.592653589793
+
+In [4]: pi/1000
+Out[4]: 0.0031415926535897933
+
+\end{verbatim}
+
+Note: the decimal point is moving (floating) as oppose to the fixed point representation.
+
+Note:  storage and arithmetic is done in base 2 and converted to base 10 only for printing.
+\end{frame}
+
+
+
