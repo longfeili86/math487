@@ -3,7 +3,7 @@
 % using finite difference method
 
 %we need a grid
-N=10;
+N=101;
 x=linspace(0,1,N)';
 
 h=x(2)-x(1);

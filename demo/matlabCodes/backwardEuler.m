@@ -32,13 +32,14 @@ Ucur = u0(x);
 
 figure
 
-for step=1:100
+for step=1:200
     Unew=(I+c*dt*D0)\Ucur; %backward Euler
     %Unew=Ucur-c*dt*Dm*Ucur; %upwind
     
     % switch for next stage
     Ucur=Unew;
     plot(x,Ucur)
+    %ylim([-0.5,0.5])    
     title(['t=',num2str((step+1)*dt)])
     pause(0.01)
 end
